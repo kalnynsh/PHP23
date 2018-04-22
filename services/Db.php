@@ -4,71 +4,121 @@ namespace app\services;
 
 use app\traits\TSingletone;
 
+require_once $_SERVER['DOCUMENT_ROOT'] . '/../config/db.php';
+
+/**
+ * Class DB manage database throw \PDO
+ */
 class Db
 {
     use TSingletone;
 
-    private $config = [
-        'driver' => 'mysql',
-        'host' => 'localhost',
-        'login' => 'root',
-        'password' => '',
-        'database' => 'shopshop',
+    private $_config = [
+        'driver' => DB_CONNECTION,
+        'host' => DB_HOST,
+        'login' => DB_USERNAME,
+        'password' => DB_PASSWORD,
+        'database' => DB_DATABASE,
         'charset' => 'utf8'
     ];
 
-    /** @var \PDO  */
-    private $conn = null;
+    /** 
+     * @var \PDO - PDO object 
+     */
+    private $_conn = null;
 
-    private static $instance = null;
+    private static $_instance = null;
 
-    private function getConnection()
+    /**
+     * Get new PDO object
+     *
+     * @return \PDO
+     */
+    private function _getConnection() : \PDO
     {
-        if (is_null($this->conn)) {
-            $this->conn = new \PDO(
-                $this->prepareDsnString(),
-                $this->config['login'],
-                $this->config['password']
+        if (is_null($this->_conn)) {
+            $this->_conn = new \PDO(
+                $this->_prepareDsnString(),
+                $this->_config['login'],
+                $this->_config['password']
             );
 
-            $this->conn->setAttribute(\PDO::ATTR_DEFAULT_FETCH_MODE, \PDO::FETCH_ASSOC);
+            $this->_conn->setAttribute(
+                \PDO::ATTR_DEFAULT_FETCH_MODE,
+                \PDO::FETCH_ASSOC
+            );
+
+            $this->_conn->setAttribute(
+                \PDO::ATTR_ERRMODE,
+                \PDO::ERRMODE_EXCEPTION
+            );
         }
 
-        return $this->conn;
+        return $this->_conn;
     }
-
-    private function query($sql, $params)
+    /**
+     * Prepare and execute query with \PDO
+     *
+     * @param string $sql    - SQL statement
+     * @param array  $params - ['key'=>$value]
+     * 
+     * @return \PDO statement
+     */
+    private function _query(string $sql, array $params)
     {
-        $pdoStatement = $this->getConnection()->prepare($sql);
+        $pdoStatement = $this->_getConnection()->prepare($sql);
         $pdoStatement->execute($params);
 
         return $pdoStatement;
     }
 
-    public function execute($sql, $params = [])
+    /**
+     * Execute query DB with \PDO
+     *
+     * @param string $sql    - SQL statement
+     * @param array  $params - ['key'=>$value]
+     * 
+     * @return bool
+     */
+    public function execute(string $sql, array $params = []) : bool
     {
-        $this->query($sql, $params);
+        $this->_query($sql, $params);
 
         return true;
     }
 
-    // public function queryOne($sql, $params = [])
-    // {
-    //     return $this->queryAll($sql, $params)[0];
-    // }
-
-    public function queryOne($sql, $params = [])
+    /**
+     * Fetch one row object from DB
+     *
+     * @param string $sql    - SQL statement
+     * @param array  $params - ['key'=>$value]
+     * 
+     * @return \PDORow - PDO row object 
+     */
+    public function queryOne(string $sql, array $params = [])
     {
-        return $this->query($sql, $params)->fetch(\PDO::FETCH_LAZY)[0];
+        return $this->_query($sql, $params)->fetch(\PDO::FETCH_LAZY);
     }
 
-
-    public function queryAll($sql, $params = [])
+    /**
+     * Fetch all DB row like array
+     *
+     * @param string $sql    - SQL statement
+     * @param array  $params - ['key'=>$value]
+     * 
+     * @return array - ASSOC array
+     */
+    public function queryAll(string $sql, array $params = [])
     {
-        return $this->query($sql, $params)->fetchAll();
+        return $this->_query($sql, $params)->fetchAll();
     }
 
-    private function prepareDsnString()
+    /**
+     * Prepare Dsn param for init \PDO
+     *
+     * @return string
+     */
+    private function _prepareDsnString() : string
     {
         return sprintf(
             "%s:host=%s;dbname=%s;charset=%s",
