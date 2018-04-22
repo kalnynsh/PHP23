@@ -7,7 +7,7 @@ use app\traits\TSingletone;
 require_once $_SERVER['DOCUMENT_ROOT'] . '/../config/db.php';
 
 /**
- * Class DB manage database throw \PDO
+ * Class DB manage database using \PDO
  */
 class Db
 {
