@@ -2,10 +2,12 @@
 
 namespace app\traits;
 
-
+/**
+ * Ttrait using for creation only one instance of any class
+ */
 trait TSingletone
 {
-    private static $instance;
+    private static $_instance;
 
     private function __construct()
     {
@@ -19,10 +21,10 @@ trait TSingletone
 
     public static function getInstance()
     {
-        if (is_null(static::$instance)) {
-            static::$instance = new static();
+        if (is_null(static::$_instance)) {
+            static::$_instance = new static();
         }
 
-        return static::$instance;
+        return static::$_instance;
     }
 }
