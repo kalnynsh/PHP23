@@ -18,7 +18,10 @@ trait TSingletone
     private function __wakeup()
     {
     }
-
+    /**
+     * Return only one instance of any class
+     *    
+     */
     public static function getInstance()
     {
         if (is_null(static::$_instance)) {
