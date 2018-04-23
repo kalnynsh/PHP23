@@ -121,4 +121,26 @@ abstract class Model
 
         return true;
     }
+    /**
+     * Set allowed properties
+     *
+     * @param array $allowed - allowed properties
+     *
+     * @return void
+     */
+    public function setAllowedProperties(array $allowed)
+    {
+        $this->allowedProperties = $allowed;
+    }
+
+    /**
+     * Get allowed properties
+     *
+     * @return array - allowed properties
+     */
+    public function getAllowedProperties() : array
+    {
+        return $this->allowedProperties;
+    }
+
 }
