@@ -23,10 +23,11 @@ require_once ROOT_DIR . '/services/Autoloader.php';
 use app\services\Autoloader;
 use app\models\Product;
 use app\models\User;
+use app\models\Category;
 
 spl_autoload_register([new Autoloader(), 'loadClass']);
 
-$productM = new Product();
+// $productM = new Product();
 
 // $productId = 1;
 // $productObjectIdOne = $productM->getOne($productId);
@@ -65,10 +66,14 @@ $productM = new Product();
 // ];
 // $idUpdate = 10;
 // $productM->updateData($sourceProductUpdate, $idUpdate);
+// $productsAll3 = $productM->getAll();
 
-$productsAll3 = $productM->getAll();
+// Test Category class
+// $categoryM = new Category();
+// $catIdOne = $categoryM->getOne(1);
 
-var_dump($productsAll3);
+
+var_dump($catIdOne);
 
 die();
 
