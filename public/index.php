@@ -45,17 +45,23 @@ $productM = new Product();
 //     'id_category' => 8,
 //     'id_image' => 2,
 //     'id_material' => 2,
-//     'price' => 7650.0,
+//     'price' => 5150.0,
 //     'product_name' => 'Платье',
 //     'size' => 'S',
 //     'amount' => 190,
-//     'color' => 'Красное',
+//     'color' => 'С вышевкой',
 // ];
 
 // $productM->setData($sourceProduct);
 // $productsAll2 = $productM->getAll();
 
-var_dump($productsAll2);
+// Test for DELETE data from products table
+// $productId = 9;
+// $productM->deleteById($productId);
+
+$productsAll3 = $productM->getAll();
+
+// var_dump($productsAll3);
 
 die();
 
