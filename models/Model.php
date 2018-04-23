@@ -143,4 +143,24 @@ abstract class Model
         return $this->allowedProperties;
     }
 
+    /**
+     * Delete row of data from DB child class table by ID
+     *
+     * @param int $id - ID
+     *
+     * @return bool
+     */
+    public function deleteById(int $id) : bool
+    {
+        $sql = sprintf('DELETE FROM %s WHERE id = :id', $this->getTableName());
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute(
+            [
+                'id' => $id,
+            ]
+        );
+
+        return true;
+    }
+
 }
