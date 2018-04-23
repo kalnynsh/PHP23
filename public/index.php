@@ -26,6 +26,7 @@ use app\models\User;
 use app\models\Category;
 use app\models\Comment;
 use app\models\Image;
+use app\models\Material;
 
 spl_autoload_register([new Autoloader(), 'loadClass']);
 
@@ -81,6 +82,10 @@ spl_autoload_register([new Autoloader(), 'loadClass']);
 // Test Image class
 // $imgM = new Image();
 // $imgMidOne = $imgM->getOne(1);
+
+// Test Material class
+// $matM = new Material();
+// $matMidOne = $matM->getOne(1);
 
 // var_dump();
 
