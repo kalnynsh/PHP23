@@ -18,9 +18,9 @@ class Product extends Model
     public $amount;
     public $color;
     protected $allowedProperties = [
-        'id_category',
-        'id_image',
-        'id_material',
+        'category_id',
+        'image_id',
+        'material_id',
         'price',
         'product_name',
         'size',
