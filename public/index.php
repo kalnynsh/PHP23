@@ -25,6 +25,7 @@ use app\models\Product;
 use app\models\User;
 use app\models\Category;
 use app\models\Comment;
+use app\models\Image;
 
 spl_autoload_register([new Autoloader(), 'loadClass']);
 
@@ -74,10 +75,14 @@ spl_autoload_register([new Autoloader(), 'loadClass']);
 // $catIdOne = $categoryM->getOne(1);
 
 // Test Comment class
-$commentM = new Comment();
-$comIdOne = $commentM->getOne(1);
+// $commentM = new Comment();
+// $comIdOne = $commentM->getOne(1);
 
-var_dump($comIdOne);
+// Test Image class
+// $imgM = new Image();
+// $imgMidOne = $imgM->getOne(1);
+
+// var_dump();
 
 die();
 
