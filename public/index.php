@@ -27,6 +27,7 @@ use app\models\Category;
 use app\models\Comment;
 use app\models\Image;
 use app\models\Material;
+use app\models\Order;
 
 spl_autoload_register([new Autoloader(), 'loadClass']);
 
@@ -87,7 +88,10 @@ spl_autoload_register([new Autoloader(), 'loadClass']);
 // $matM = new Material();
 // $matMidOne = $matM->getOne(1);
 
-// var_dump();
+// Test Order class
+// $orderM = new Order();
+// $orderMidOne = $orderM->getOne(1);
 
-die();
+// var_dump($orderMidOne);
 
+// die();
