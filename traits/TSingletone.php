@@ -20,7 +20,7 @@ trait TSingletone
     }
     /**
      * Return only one instance of any class
-     *    
+     *   
      */
     public static function getInstance()
     {
