@@ -2,8 +2,6 @@
 
 namespace app\services;
 
-use app\traits\TSingletone;
-
 require_once $_SERVER['DOCUMENT_ROOT'] . '/../config/db.php';
 
 /**
@@ -11,8 +9,6 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/../config/db.php';
  */
 class Db
 {
-    use TSingletone;
-
     private $_config = [
         'driver' => DB_CONNECTION,
         'host' => DB_HOST,
@@ -23,18 +19,33 @@ class Db
     ];
 
     /** 
-     * @var \PDO - PDO object 
+     * @var \PDO $_conn - \PDO object 
      */
     private $_conn = null;
-
     private static $_instance = null;
 
     /**
-     * Get new PDO object
+     * Return only one instance of Db class
+     * Usage Db::getInstance() 
+     * 
+     * @return \PDO    
+     */
+    public static function getInstance()
+    {
+        if (is_null(static::$_instance)) {
+            static::$_instance = new static();
+        }
+
+        return static::$_instance;
+    }
+
+    /**
+     * Get new PDO object if $_conn == null
+     * else get existing \PDO $_conn
      *
      * @return \PDO
      */
-    private function _getConnection() : \PDO
+    public function getConnection() : \PDO
     {
         if (is_null($this->_conn)) {
             $this->_conn = new \PDO(
@@ -56,62 +67,6 @@ class Db
 
         return $this->_conn;
     }
-    /**
-     * Prepare and execute query with \PDO
-     *
-     * @param string $sql    - SQL statement
-     * @param array  $params - ['key'=>$value]
-     * 
-     * @return \PDO statement
-     */
-    private function _query(string $sql, array $params)
-    {
-        $pdoStatement = $this->_getConnection()->prepare($sql);
-        $pdoStatement->execute($params);
-
-        return $pdoStatement;
-    }
-
-    /**
-     * Execute query DB with \PDO
-     *
-     * @param string $sql    - SQL statement
-     * @param array  $params - ['key'=>$value]
-     * 
-     * @return bool
-     */
-    public function execute(string $sql, array $params = []) : bool
-    {
-        $this->_query($sql, $params);
-
-        return true;
-    }
-
-    /**
-     * Fetch one row object from DB
-     *
-     * @param string $sql    - SQL statement
-     * @param array  $params - ['key'=>$value]
-     * 
-     * @return \PDORow - PDO row object 
-     */
-    public function queryOne(string $sql, array $params = [])
-    {
-        return $this->_query($sql, $params)->fetch(\PDO::FETCH_LAZY);
-    }
-
-    /**
-     * Fetch all DB row like array
-     *
-     * @param string $sql    - SQL statement
-     * @param array  $params - ['key'=>$value]
-     * 
-     * @return array - ASSOC array
-     */
-    public function queryAll(string $sql, array $params = [])
-    {
-        return $this->_query($sql, $params)->fetchAll();
-    }
 
     /**
      * Prepare Dsn param for init \PDO
@@ -122,11 +77,22 @@ class Db
     {
         return sprintf(
             "%s:host=%s;dbname=%s;charset=%s",
-            $this->config['driver'],
-            $this->config['host'],
-            $this->config['database'],
-            $this->config['charset']
+            $this->_config['driver'],
+            $this->_config['host'],
+            $this->_config['database'],
+            $this->_config['charset']
         );
     }
 
+    private function __construct()
+    {
+    }
+
+    private function __clone()
+    {
+    }
+
+    private function __wakeup()
+    {
+    }
 }
