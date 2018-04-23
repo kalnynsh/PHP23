@@ -1,27 +1,44 @@
 <?php
 
 /** 
- * PHP education
+ * Learning PHP
  * 
  * PHP version 7.2
  * 
- * @category Education_PHP
- * @package  PHP_Education_Main_Page
- * @author   Kalnynsh <kalnynsh@google.com>
+ * @category Learning_PHP
+ * @package  Main_Page
+ * @author   Kalnynsh <kda869@yandex.ru>
  * @license  http://example.com MIT 
  * @link     https://github.com/kalnynsh 
  */
 
+error_reporting(E_ALL);
+ini_set('display_errors', true);
+ini_set('html_errors', true);
+setlocale(LC_ALL, 'ru_RU.UTF-8', 'rus_RUS.UTF-8', 'Russian_Russia.UTF-8');
+
 require_once $_SERVER['DOCUMENT_ROOT'] . '/../config/main.php';
-require_once ENGINE_DIR . '/autoload.php';
+require_once ROOT_DIR . '/services/Autoloader.php';
 
-$usename = getUsername();
-$products = getAllProducts();
+use app\services\Autoloader;
+use app\models\Product;
+use app\models\User;
 
-echo renderMainTemplate(
-    'catalog',
-    [
-        'products' => $products,
-        'usename' => $usename,
-    ]
-);
+spl_autoload_register([new Autoloader(), 'loadClass']);
+
+$productM = new Product();
+
+// $productId = 1;
+// $productObjectIdOne = $productM->getOne($productId);
+// echo $productObjectIdOne['product_name'] . '<br>';
+// var_dump($productObjectIdOne);
+
+//  Get all rows
+// $productsAll = $productM->getAll();
+$productColName = $productM->getColumn('product_name');
+
+// Get rows with column 'product_name'
+var_dump($productColName);
+
+
+die();
