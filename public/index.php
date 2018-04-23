@@ -24,6 +24,7 @@ use app\services\Autoloader;
 use app\models\Product;
 use app\models\User;
 use app\models\Category;
+use app\models\Comment;
 
 spl_autoload_register([new Autoloader(), 'loadClass']);
 
@@ -72,8 +73,11 @@ spl_autoload_register([new Autoloader(), 'loadClass']);
 // $categoryM = new Category();
 // $catIdOne = $categoryM->getOne(1);
 
+// Test Comment class
+$commentM = new Comment();
+$comIdOne = $commentM->getOne(1);
 
-var_dump($catIdOne);
+var_dump($comIdOne);
 
 die();
 
