@@ -5,7 +5,16 @@ class User extends Model
 {
     public $id;
     public $login;
+    public $name;
     public $password;
+    public $last_login;
+
+    protected $allowedProperties = [
+        'login',
+        'name',
+        'password',
+        'last_login'
+    ];
 
     public function getTableName()
     {
