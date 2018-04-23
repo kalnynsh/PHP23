@@ -10,7 +10,8 @@ use app\services\Db;
 abstract class Model
 {
     protected $db;
-    const LIMIT = 6;
+    protected $limitFrom = 0;
+    protected $perPage = 6;
     protected $allowedProperties = [];
 
     /**
@@ -47,11 +48,14 @@ abstract class Model
     public function getAll()
     {
         $sql = sprintf(
-            'SELECT * FROM %s LIMIT %s',
-            $this->getTableName(),
-            self::LIMIT
+            'SELECT * FROM %s LIMIT :limitFrom, :perPage',
+            $this->getTableName()
         );
-        $stmt = $this->db->query($sql);
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue('limitFrom', $this->limitFrom, \PDO::PARAM_INT);
+        $stmt->bindValue('perPage', $this->perPage, \PDO::PARAM_INT);
+
+        $stmt->execute();
 
         return $stmt->fetchAll();
     }
