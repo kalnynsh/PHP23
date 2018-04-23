@@ -2,7 +2,7 @@
 manifest/
 /node_modules
 /tmp
-/log
+/log/*
 /vendor
 npm-debug.log
 yarn-error.log
