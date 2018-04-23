@@ -37,7 +37,7 @@ abstract class Model
      */
     public function getOne(int $id)
     {
-        $sql = sprintf('SELECT * FROM %s WHERE id = :id', $this->getTableName());
+        $sql = sprintf('SELECT * FROM `%s` WHERE id = :id', $this->getTableName());
         $stmt = $this->db->prepare($sql);
         $params = ['id' => $id];
 
@@ -54,7 +54,7 @@ abstract class Model
     public function getAll()
     {
         $sql = sprintf(
-            'SELECT * FROM %s LIMIT :limitFrom, :perPage',
+            'SELECT * FROM `%s` LIMIT :limitFrom, :perPage',
             $this->getTableName()
         );
         $stmt = $this->db->prepare($sql);
@@ -79,7 +79,7 @@ abstract class Model
             return false;
         }
 
-        $sql = sprintf('SELECT %s FROM %s', $columnName, $this->getTableName());
+        $sql = sprintf('SELECT `%s` FROM `%s`', $columnName, $this->getTableName());
         $stmt = $this->db->query($sql);
 
         return $stmt->fetchAll(\PDO::FETCH_COLUMN);
@@ -114,13 +114,59 @@ abstract class Model
         }
 
         $set = substr($set, 0, -2);
-        $sql = sprintf("INSERT INTO %s SET %s", $this->getTableName(), $set);
+        $sql = sprintf("INSERT INTO `%s` SET %s", $this->getTableName(), $set);
 
         $stmt = $this->db->prepare($sql);
         $stmt->execute($values);
 
         return true;
     }
+
+    /**
+     * Update given data to child class table
+     *
+     * @param array $source - array of source
+     * @param int   $id     - column id  
+     *
+     * @return bool
+     */
+    public function updateData(array $source, int $id) : bool
+    {
+        $allowed = $this->allowedProperties;
+
+        if (!$allowed) {
+            return false;
+        } else if (empty($id)) {
+            return false;
+        }
+
+        $set = '';
+        $values = [];
+        $values['id'] = $id;
+
+        foreach ($allowed as $field) {
+            if (isset($source[$field])) {
+                $set .= "`" .
+                    str_replace("`", "``", $field) .
+                    "`" .
+                    "=:$field, ";
+                $values[$field] = $source[$field];
+            }
+        }
+
+        $set = substr($set, 0, -2);
+        $sql = sprintf(
+            "UPDATE `%s` SET %s WHERE id = :id",
+            $this->getTableName(),
+            $set
+        );
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute($values);
+
+        return true;
+    }
+
     /**
      * Set allowed properties
      *
