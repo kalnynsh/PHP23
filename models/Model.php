@@ -1,39 +1,65 @@
 <?php
 namespace app\models;
 
-use app\interfaces\IModel;
 use app\services\Db;
 
-abstract class Model implements IModel
+/**
+ * Model abstact parent class
+ * for User, Product and any model classes
+ */
+abstract class Model
 {
     protected $db;
+    const LIMIT = 6;
+    protected $allowedProperties = [];
 
     /**
-     * Product constructor - init $db 
+     * Model constructor - assign db only one instance of Db class
      *
      */
     public function __construct()
     {
-        $this->db = Db::getInstance();
+        $this->db = Db::getInstance()->getConnection();
     }
 
-    public function getOne($id)
+    /**
+     * Get one row of data from DB by ID
+     *
+     * @param int $id - ID
+     *
+     */
+    public function getOne(int $id)
     {
-        $tableName = $this->getTableName();
-        $sql = "SELECT * FROM {$tableName} WHERE id = :id";
+        $sql = sprintf('SELECT * FROM %s WHERE id = :id', $this->getTableName());
+        $stmt = $this->db->prepare($sql);
         $params = ['id' => $id];
 
-        return $this->db->queryOne($sql, $params);
+        $stmt->execute($params);
+
+        return $stmt->fetch(\PDO::FETCH_LAZY);
     }
 
+    /**
+     * Get all row data from DB
+     *
+     * @return array - of result
+     */
     public function getAll()
     {
-        $tableName = $this->getTableName();
-        $sql = "SELECT * FROM {$tableName}";
+        $sql = sprintf(
+            'SELECT * FROM %s LIMIT %s',
+            $this->getTableName(),
+            self::LIMIT
+        );
+        $stmt = $this->db->query($sql);
 
-        return $this->db->queryAll($sql);
+        return $stmt->fetchAll();
     }
 
+    /**
+     * Abstract method for child classes - get table name
+     *
+     */
     abstract public function getTableName();
 
 }
