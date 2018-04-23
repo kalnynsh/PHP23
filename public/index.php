@@ -48,7 +48,7 @@ $productM = new Product();
 //     'price' => 5150.0,
 //     'product_name' => 'Платье',
 //     'size' => 'S',
-//     'amount' => 190,
+//     'amount' => 140,
 //     'color' => 'С вышевкой',
 // ];
 
@@ -59,9 +59,16 @@ $productM = new Product();
 // $productId = 9;
 // $productM->deleteById($productId);
 
+// Test for UPDATE data in products table
+// $sourceProductUpdate = [
+//     'price' => 4900.0,
+// ];
+// $idUpdate = 10;
+// $productM->updateData($sourceProductUpdate, $idUpdate);
+
 $productsAll3 = $productM->getAll();
 
-// var_dump($productsAll3);
+var_dump($productsAll3);
 
 die();
 
