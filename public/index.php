@@ -18,6 +18,7 @@ ini_set('html_errors', true);
 setlocale(LC_ALL, 'ru_RU.UTF-8', 'rus_RUS.UTF-8', 'Russian_Russia.UTF-8');
 
 require_once $_SERVER['DOCUMENT_ROOT'] . '/../config/main.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/../config/app.php';
 require_once ROOT_DIR . '/services/Autoloader.php';
 
 use app\services\Autoloader;
