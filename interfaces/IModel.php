@@ -9,7 +9,7 @@ interface IModel
     /**
      * Get one row of data from DB by ID
      */
-    public function getOne($id);
+    public function getOne(int $id);
 
     /**
      * Get all row data from DB
