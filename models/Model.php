@@ -24,6 +24,12 @@ abstract class Model
     }
 
     /**
+     * Abstract method for child classes - get table name
+     *
+     */
+    abstract public function getTableName();
+
+    /**
      * Get one row of data from DB by ID
      *
      * @param int $id - ID
@@ -61,9 +67,21 @@ abstract class Model
     }
 
     /**
-     * Abstract method for child classes - get table name
+     * Get all data from DB table for column
      *
+     * @param string $columnName - column name
+     *
+     * @return array|bool- result or false
      */
-    abstract public function getTableName();
+    public function getColumn(string $columnName)
+    {
+        if (in_array($columnName, $this->allowedProperties) === false) {
+            return false;
+        }
 
+        $sql = sprintf('SELECT %s FROM %s', $columnName, $this->getTableName());
+        $stmt = $this->db->query($sql);
+
+        return $stmt->fetchAll(\PDO::FETCH_COLUMN);
+    }
 }
