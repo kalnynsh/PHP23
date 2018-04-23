@@ -84,4 +84,41 @@ abstract class Model
 
         return $stmt->fetchAll(\PDO::FETCH_COLUMN);
     }
+
+    /**
+     * Insert given data to child class table
+     *
+     * @param array $source - array of source
+     *
+     * @return bool
+     */
+    public function setData(array $source) : bool
+    {
+        $allowed = $this->allowedProperties;
+
+        if (!$allowed) {
+            return false;
+        }
+
+        $set = '';
+        $values = [];
+
+        foreach ($allowed as $field) {
+            if (isset($source[$field])) {
+                $set .= "`" .
+                    str_replace("`", "``", $field) .
+                    "`" .
+                    "=:$field, ";
+                $values[$field] = $source[$field];
+            }
+        }
+
+        $set = substr($set, 0, -2);
+        $sql = sprintf("INSERT INTO %s SET %s", $this->getTableName(), $set);
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute($values);
+
+        return true;
+    }
 }
