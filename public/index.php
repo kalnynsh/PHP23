@@ -35,10 +35,27 @@ $productM = new Product();
 
 //  Get all rows
 // $productsAll = $productM->getAll();
-$productColName = $productM->getColumn('product_name');
+// $productColName = $productM->getColumn('product_name');
 
 // Get rows with column 'product_name'
-var_dump($productColName);
+// var_dump($productColName);
 
+// Test for Insert data to products table
+// $sourceProduct = [
+//     'id_category' => 8,
+//     'id_image' => 2,
+//     'id_material' => 2,
+//     'price' => 7650.0,
+//     'product_name' => 'Платье',
+//     'size' => 'S',
+//     'amount' => 190,
+//     'color' => 'Красное',
+// ];
+
+// $productM->setData($sourceProduct);
+// $productsAll2 = $productM->getAll();
+
+var_dump($productsAll2);
 
 die();
+
