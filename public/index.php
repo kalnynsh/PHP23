@@ -32,11 +32,13 @@ use app\models\Order;
 
 spl_autoload_register([new Autoloader(), 'loadClass']);
 
-// $productM = new Product();
+$productM = new Product();
 
 // $productId = 1;
 // $productObjectIdOne = $productM->getOne($productId);
+
 // echo $productObjectIdOne['product_name'] . '<br>';
+
 // var_dump($productObjectIdOne);
 
 //  Get all rows
@@ -48,18 +50,20 @@ spl_autoload_register([new Autoloader(), 'loadClass']);
 
 // Test for Insert data to products table
 // $sourceProduct = [
-//     'id_category' => 8,
-//     'id_image' => 2,
-//     'id_material' => 2,
-//     'price' => 5150.0,
-//     'product_name' => 'Платье',
-//     'size' => 'S',
-//     'amount' => 140,
-//     'color' => 'С вышевкой',
+//     'category_id' => 5,
+//     'image_id' => 6,
+//     'material_id' => 2,
+//     'price' => 12010.0,
+//     'product_name' => 'Костюм',
+//     'size' => 'XL',
+//     'amount' => 213,
+//     'color' => 'Светло серый',
 // ];
 
 // $productM->setData($sourceProduct);
 // $productsAll2 = $productM->getAll();
+// $lastId = $productM->getLastInsertId();
+// var_dump($lastId);
 
 // Test for DELETE data from products table
 // $productId = 9;
