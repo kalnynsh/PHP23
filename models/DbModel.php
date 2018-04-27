@@ -10,9 +10,11 @@ use app\services\Db;
 abstract class DbModel
 {
     protected $db;
+    public $id;
     protected $limitFrom = 0;
     protected $perPage = 6;
     protected $allowedProperties = [];
+    protected $currentProperties = [];
 
     /**
      * Model constructor - assign db only one instance of Db class
@@ -45,7 +47,7 @@ abstract class DbModel
             get_called_class()
         );
 
-        $params = ['id' => $id];
+        $params = [':id' => $id];
         $stmt->execute($params);
 
         return $stmt->fetch();
@@ -68,7 +70,11 @@ abstract class DbModel
 
         $stmt->execute();
 
-        return $stmt->fetchAll();
+        return $stmt->fetchAll(
+            \PDO::FETCH_CLASS |
+                \PDO::FETCH_PROPS_LATE,
+            get_called_class()
+        );
     }
 
     /**
@@ -125,6 +131,57 @@ abstract class DbModel
         $stmt->execute($values);
 
         return true;
+    }
+
+    /**
+     * Insert data to DB using class object property
+     *
+     * @return string - ID of last inserted row
+     */
+    public function insert() : string
+    {
+        $params = [];
+        $columns = [];
+
+        foreach ($this as $key => $value) {
+            if (in_array($key, $this->allowedProperties) === false) {
+                continue;
+            }
+
+            $params[":{$key}"] = $value;
+            $columns[] = "`{$key}`";
+        }
+
+        $columns = implode(', ', $columns);
+        $placeholders = implode(', ', array_keys($params));
+        $tableName = $this->getTableName();
+
+        $sql = sprintf(
+            "INSERT INTO (`%s`) (`%s`) VALUES (%s)",
+            $tableName,
+            $columns,
+            $placeholders
+        );
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute($params);
+
+        return $this->getLastInsertId();
+    }
+
+    /**
+     * Save current object properies for next compare
+     *
+     * @return void
+     */
+    public function commit()
+    {
+        foreach ($this as $key => $value) {
+            if (in_array($key, $this->allowedProperties) === false) {
+                continue;
+            }
+            $this->currentProperties["{$key}"] = $value;
+        }
     }
 
     /**
@@ -224,4 +281,23 @@ abstract class DbModel
         return true;
     }
 
+    /**
+     * Delete row of data from DB child class table 
+     * by self ID
+     *
+     * @return bool
+     */
+    public function delete() : bool
+    {
+        $id = $this->id;
+        $sql = sprintf('DELETE FROM %s WHERE id = :id', $this->getTableName());
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute(
+            [
+                'id' => $id,
+            ]
+        );
+
+        return true;
+    }
 }
