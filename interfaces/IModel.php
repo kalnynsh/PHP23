@@ -9,15 +9,15 @@ interface IModel
     /**
      * Get one row of data from DB by ID
      */
-    public function getOne(int $id);
+    public static function getOne(int $id);
 
     /**
      * Get all row data from DB
      */
-    public function getAll();
+    public static function getAll();
 
     /**
      * Get table name
      */
-    public function getTableName();
+    public static function getTableName();
 }
