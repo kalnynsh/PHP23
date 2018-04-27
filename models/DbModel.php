@@ -13,8 +13,16 @@ abstract class DbModel
     public $id;
     protected $limitFrom = 0;
     protected $perPage = 6;
-    protected $allowedProperties = [];
+    protected $privateProperties = [
+        'db',
+        'limitFrom',
+        'perPage',
+        'currentProperties',
+        'privateProperties',
+        'allowedProperties'
+    ];
     protected $currentProperties = [];
+    protected $allowedProperties = [];
 
     /**
      * Model constructor - assign db only one instance of Db class
@@ -26,10 +34,10 @@ abstract class DbModel
     }
 
     /**
-     * Abstract method for child classes - get table name
+     * Abstract static method for child classes - get table name
      *
      */
-    abstract public function getTableName();
+    abstract public static function getTableName();
 
     /**
      * Get one row of data from DB by ID
@@ -39,7 +47,7 @@ abstract class DbModel
      */
     public function getOne(int $id)
     {
-        $sql = sprintf('SELECT * FROM `%s` WHERE id = :id', $this->getTableName());
+        $sql = sprintf('SELECT * FROM `%s` WHERE id = :id', static::getTableName());
         $stmt = $this->db->prepare($sql);
         $stmt->setFetchMode(
             \PDO::FETCH_CLASS |
@@ -62,7 +70,7 @@ abstract class DbModel
     {
         $sql = sprintf(
             'SELECT * FROM `%s` LIMIT :limitFrom, :perPage',
-            $this->getTableName()
+            static::getTableName()
         );
         $stmt = $this->db->prepare($sql);
         $stmt->bindValue('limitFrom', $this->limitFrom, \PDO::PARAM_INT);
@@ -86,11 +94,11 @@ abstract class DbModel
      */
     public function getColumn(string $columnName)
     {
-        if (in_array($columnName, $this->allowedProperties) === false) {
+        if (in_array($columnName, $this->getAllowedProperties()) === false) {
             return false;
         }
 
-        $sql = sprintf('SELECT `%s` FROM `%s`', $columnName, $this->getTableName());
+        $sql = sprintf('SELECT `%s` FROM `%s`', $columnName, static::getTableName());
         $stmt = $this->db->query($sql);
 
         return $stmt->fetchAll(\PDO::FETCH_COLUMN);
@@ -105,7 +113,7 @@ abstract class DbModel
      */
     public function setData(array $source) : bool
     {
-        $allowed = $this->allowedProperties;
+        $allowed = $this->getAllowedProperties();
 
         if (!$allowed) {
             return false;
@@ -125,7 +133,7 @@ abstract class DbModel
         }
 
         $set = substr($set, 0, -2);
-        $sql = sprintf("INSERT INTO `%s` SET %s", $this->getTableName(), $set);
+        $sql = sprintf("INSERT INTO `%s` SET %s", static::getTableName(), $set);
 
         $stmt = $this->db->prepare($sql);
         $stmt->execute($values);
@@ -144,7 +152,7 @@ abstract class DbModel
         $columns = [];
 
         foreach ($this as $key => $value) {
-            if (in_array($key, $this->allowedProperties) === false) {
+            if (in_array($key, $this->privateProperties) === true) {
                 continue;
             }
 
@@ -154,7 +162,7 @@ abstract class DbModel
 
         $columns = implode(', ', $columns);
         $placeholders = implode(', ', array_keys($params));
-        $tableName = $this->getTableName();
+        $tableName = static::getTableName();
 
         $sql = sprintf(
             "INSERT INTO (`%s`) (`%s`) VALUES (%s)",
@@ -177,7 +185,7 @@ abstract class DbModel
     public function commit()
     {
         foreach ($this as $key => $value) {
-            if (in_array($key, $this->allowedProperties) === false) {
+            if (in_array($key, $this->privateProperties) === true) {
                 continue;
             }
             $this->currentProperties["{$key}"] = $value;
@@ -204,7 +212,7 @@ abstract class DbModel
      */
     public function updateData(array $source, int $id) : bool
     {
-        $allowed = $this->allowedProperties;
+        $allowed = $this->getAllowedProperties();
 
         if (!$allowed) {
             return false;
@@ -229,7 +237,7 @@ abstract class DbModel
         $set = substr($set, 0, -2);
         $sql = sprintf(
             "UPDATE `%s` SET %s WHERE id = :id",
-            $this->getTableName(),
+            static::getTableName(),
             $set
         );
 
@@ -246,10 +254,10 @@ abstract class DbModel
      *
      * @return void
      */
-    public function setAllowedProperties(array $allowed)
-    {
-        $this->allowedProperties = $allowed;
-    }
+    // public function setAllowedProperties(array $allowed)
+    // {
+    //     $this->allowedProperties = $allowed;
+    // }
 
     /**
      * Get allowed properties
@@ -258,6 +266,10 @@ abstract class DbModel
      */
     public function getAllowedProperties() : array
     {
+        if (empty($this->currentProperties)) {
+            $this->allowedProperties = array_keys($this->commit());
+        }
+
         return $this->allowedProperties;
     }
 
@@ -270,7 +282,7 @@ abstract class DbModel
      */
     public function deleteById(int $id) : bool
     {
-        $sql = sprintf('DELETE FROM %s WHERE id = :id', $this->getTableName());
+        $sql = sprintf('DELETE FROM %s WHERE id = :id', static::getTableName());
         $stmt = $this->db->prepare($sql);
         $stmt->execute(
             [
@@ -290,7 +302,7 @@ abstract class DbModel
     public function delete() : bool
     {
         $id = $this->id;
-        $sql = sprintf('DELETE FROM %s WHERE id = :id', $this->getTableName());
+        $sql = sprintf('DELETE FROM %s WHERE id = :id', static::getTableName());
         $stmt = $this->db->prepare($sql);
         $stmt->execute(
             [
