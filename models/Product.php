@@ -16,17 +16,7 @@ class Product extends DbModel
     public $amount;
     public $color;
     protected $currentProperties = [];
-    // protected $allowedProperties = [
-    //     'id',
-    //     'category_id',
-    //     'image_id',
-    //     'material_id',
-    //     'price',
-    //     'product_name',
-    //     'size',
-    //     'amount',
-    //     'color'
-    // ];
+    protected $allowedProperties = [];
 
     /**
      * Product constructor
@@ -52,7 +42,7 @@ class Product extends DbModel
         $amount = null,
         $color = null
     ) {
-        parent::__construct();
+        // parent::__construct();
         $this->id = $id;
         $this->category_id = $category_id;
         $this->image_id = $image_id;
