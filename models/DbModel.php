@@ -128,6 +128,16 @@ abstract class DbModel
     }
 
     /**
+     * Return last insert ID to DB row that using auto increment
+     *
+     * @return string
+     */
+    public function getLastInsertId() : string
+    {
+        return $this->db->lastInsertId();
+    }
+
+    /**
      * Update given data to child class table
      *
      * @param array $source - array of source
