@@ -4,7 +4,7 @@ namespace app\models;
 /**
  *  Material model class
  */
-class Material extends Model
+class Material extends DbModel
 {
     public $id;
     public $material_name;
