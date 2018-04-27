@@ -39,11 +39,16 @@ abstract class DbModel
     {
         $sql = sprintf('SELECT * FROM `%s` WHERE id = :id', $this->getTableName());
         $stmt = $this->db->prepare($sql);
-        $params = ['id' => $id];
+        $stmt->setFetchMode(
+            \PDO::FETCH_CLASS |
+                \PDO::FETCH_PROPS_LATE,
+            get_called_class()
+        );
 
+        $params = ['id' => $id];
         $stmt->execute($params);
 
-        return $stmt->fetch(\PDO::FETCH_LAZY);
+        return $stmt->fetch();
     }
 
     /**
