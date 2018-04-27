@@ -54,7 +54,7 @@ abstract class DbModel
     }
 
     /**
-     * Get all row data from DB
+     * Get all row data from DB like objects
      *
      * @return array - of result
      */
