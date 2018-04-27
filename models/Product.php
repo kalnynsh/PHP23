@@ -7,9 +7,9 @@ namespace app\models;
 class Product extends DbModel
 {
     public $id;
-    public $id_category;
-    public $id_image;
-    public $id_material;
+    public $category_id;
+    public $image_id;
+    public $material_id;
 
     public $price;
     public $product_name;
