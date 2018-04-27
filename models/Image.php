@@ -4,7 +4,7 @@ namespace app\models;
 /**
  *  Image model class
  */
-class Image extends Model
+class Image extends DbModel
 {
     public $id;
     public $image_name;
