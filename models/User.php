@@ -1,6 +1,8 @@
 <?php
 namespace app\models;
-
+/**
+ *  User model class
+ */
 class User extends DbModel
 {
     public $id;
@@ -16,7 +18,12 @@ class User extends DbModel
         'last_login'
     ];
 
-    public function getTableName()
+    /**
+     * Get DB table name
+     *
+     * @return void
+     */
+    public static function getTableName()
     {
         return 'users';
     }

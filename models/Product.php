@@ -10,24 +10,24 @@ class Product extends DbModel
     public $category_id;
     public $image_id;
     public $material_id;
-
     public $price;
     public $product_name;
     public $size;
-
     public $amount;
     public $color;
-    protected $allowedProperties = [
-        'id',
-        'category_id',
-        'image_id',
-        'material_id',
-        'price',
-        'product_name',
-        'size',
-        'amount',
-        'color'
-    ];
+    protected $currentProperties = [];
+    // protected $allowedProperties = [
+    //     'id',
+    //     'category_id',
+    //     'image_id',
+    //     'material_id',
+    //     'price',
+    //     'product_name',
+    //     'size',
+    //     'amount',
+    //     'color'
+    // ];
+
     /**
      * Product constructor
      *
@@ -69,7 +69,7 @@ class Product extends DbModel
      *
      * @return string
      */
-    public function getTableName() : string
+    public static function getTableName() : string
     {
         return 'products';
     }

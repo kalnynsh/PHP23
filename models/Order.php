@@ -26,7 +26,7 @@ class Order extends DbModel
      *
      * @return string
      */
-    public function getTableName() : string
+    public static function getTableName() : string
     {
         return 'orders';
     }
