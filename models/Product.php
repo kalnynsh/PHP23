@@ -18,6 +18,7 @@ class Product extends DbModel
     public $amount;
     public $color;
     protected $allowedProperties = [
+        'id',
         'category_id',
         'image_id',
         'material_id',
