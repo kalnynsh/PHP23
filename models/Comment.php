@@ -4,7 +4,7 @@ namespace app\models;
 /**
  *  Comment model class
  */
-class Comment extends Model
+class Comment extends DbModel
 {
     public $id;
     public $user_id;
