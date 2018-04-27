@@ -4,7 +4,7 @@ namespace app\models;
 /**
  *  Product model class
  */
-class Product extends Model
+class Product extends DbModel
 {
     public $id;
     public $id_category;
