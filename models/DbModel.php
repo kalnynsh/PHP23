@@ -73,8 +73,8 @@ abstract class DbModel
             static::getTableName()
         );
         $stmt = static::getConn()->prepare($sql);
-        $stmt->bindValue('limitFrom', static::LIMIT_FROM, \PDO::PARAM_INT);
-        $stmt->bindValue('perPage', static::PER_PAGE, \PDO::PARAM_INT);
+        $stmt->bindValue(':limitFrom', static::LIMIT_FROM, \PDO::PARAM_INT);
+        $stmt->bindValue(':perPage', static::PER_PAGE, \PDO::PARAM_INT);
 
         $stmt->execute();
 
