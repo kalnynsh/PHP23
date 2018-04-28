@@ -11,10 +11,10 @@ class Category extends DbModel
     protected $allowedProperties = [];
 
     /**
-     * Category constructor
+     * Category's constructor
      *
      * @param int    $id   - category's ID
-     * @param string $name - category's nam
+     * @param string $name - category's name
      */
     public function __construct(
         $id = null,
