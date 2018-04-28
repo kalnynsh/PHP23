@@ -42,7 +42,6 @@ class Product extends DbModel
         $amount = null,
         $color = null
     ) {
-        // parent::__construct();
         $this->id = $id;
         $this->category_id = $category_id;
         $this->image_id = $image_id;
