@@ -94,7 +94,7 @@ abstract class DbModel
      */
     public function getColumn(string $columnName)
     {
-        if (in_array($columnName, $this->getAllowedProperties()) === false) {
+        if (!$this->isAllowed($columnName)) {
             return false;
         }
 
@@ -115,7 +115,7 @@ abstract class DbModel
         $columns = [];
 
         foreach ($this as $key => $value) {
-            if (in_array($key, $this->privateProperties) === true) {
+            if ($this->isPrivate($key)) {
                 continue;
             }
 
@@ -148,7 +148,7 @@ abstract class DbModel
     public function commit()
     {
         foreach ($this as $key => $value) {
-            if (in_array($key, $this->privateProperties) === true) {
+            if ($this->isPrivate($key)) {
                 continue;
             }
             $this->currentProperties["{$key}"] = $value;
@@ -172,7 +172,6 @@ abstract class DbModel
      */
     public function update() : bool
     {
-        $allowedProperties = $this->getAllowedProperties();
         $oldProperties = $this->currentProperties;
 
         if (empty($oldProperties)) {
@@ -183,11 +182,11 @@ abstract class DbModel
         $set = '';
 
         foreach ($this as $key => $value) {
-            if (in_array($key, $this->privateProperties) == true) {
+            if ($this->isPrivate($key)) {
                 continue;
             }
 
-            if (in_array($key, $allowedProperties) == false) {
+            if (!$this->isAllowed($key)) {
                 return false;
             }
 
@@ -264,4 +263,31 @@ abstract class DbModel
 
         return true;
     }
+
+    /**
+     * Check if given name belongs 
+     * to AllowedProperties array
+     *
+     * @param string $name - property name
+     * 
+     * @return boolean
+     */
+    protected function isAllowed(string $name) : bool
+    {
+        return in_array($name, $this->getAllowedProperties());
+    }
+
+    /**
+     * Check if given name belongs 
+     * to AllowedProperties array
+     *
+     * @param string $name - property name
+     * 
+     * @return boolean
+     */
+    protected function isPrivate(string $name) : bool
+    {
+        return in_array($name, $this->privateProperties);
+    }
+
 }
