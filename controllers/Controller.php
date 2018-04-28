@@ -42,6 +42,44 @@ abstract class Controller
         }
     }
 
+    /**
+     * Render template use or not $_layout
+     *
+     * @param string $template - template's name
+     * @param array  $params   - params passing to template
+     * 
+     * @return void
+     */
+    public function render(string $template, array $params = [])
+    {
+        if ($this->_useLayout) {
+            return $this->renderTemplate(
+                "layouts/{$this->_layout}",
+                [
+                    'content' => $this->renderTemplate($template, $params),
+                ]
+            );
+        } else {
+            $this->renderTemplate($template, $params);
+        }
+    }
 
+    /**
+     * Render given template use ob_*
+     *
+     * @param string $template - template's name
+     * @param array  $params   - params passing to template
+     * 
+     * @return void
+     */
+    public function renderTemplate(string $template, array $params = [])
+    {
+        ob_start();
+        extract($params);
+        $templatePath = TEMPLATES_DIR . $template . 'Tmpl.php';
+        include_once $templatePath;
+
+        return ob_get_clean();
+    }
 
 } 
