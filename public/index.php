@@ -22,27 +22,26 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/../config/app.php';
 require_once ROOT_DIR . '/services/Autoloader.php';
 
 use app\services\Autoloader;
-use app\models\Product;
-use app\models\User;
-use app\models\Category;
-use app\models\Comment;
-use app\models\Image;
-use app\models\Material;
-use app\models\Order;
+// use app\models\Product;
+// use app\models\User;
+// use app\models\Category;
+// use app\models\Comment;
+// use app\models\Image;
+// use app\models\Material;
+// use app\models\Order;
 
 spl_autoload_register([new Autoloader(), 'loadClass']);
 
-// $productAll = Product::getAll();
-// var_dump($productAll);
+$controllerName = $_GET['c'] ?? 'product';
+$actionName = $_GET['a'] ?? 'index';
 
-$productId = 12;
-$productObjectId12 = Product::getOne($productId);
-// $productObjectId12->commit();
+$controllerClass = CONTROLLERS_NAMESPACE . ucfirst($controllerName) . 'Controller';
 
-// $productObjectId12->price = 12090.0;
-
-// var_dump($productObjectId12->update());
-
-var_dump($productObjectId12);
-
+var_dump($controllerClass, $actionName);
 die();
+
+if (class_exists($controllerClass)) {
+    /** @var $controller */
+    $controller = new $controllerClass();
+    $controller->runAction($actionName);
+}
