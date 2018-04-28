@@ -1,4 +1,16 @@
 <?php
+
+/** 
+ * Learning PHP
+ * 
+ * PHP version 7.2
+ * 
+ * @category DbModel
+ * @package  Model
+ * @author   Kalnynsh <kda869@yandex.ru>
+ * @license  http://example.com MIT 
+ * @link     https://github.com/kalnynsh 
+ */
 namespace app\models;
 
 use app\services\Db;
