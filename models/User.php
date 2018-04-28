@@ -50,4 +50,36 @@ class User extends DbModel
     {
         return 'users';
     }
+
+    /**
+     * Get user's row of data from DB by username
+     * and password
+     *
+     * @param string $login - user's login
+     * @param string $pswd  - user's name
+     */
+    public static function getUser($login, $pswd)
+    {
+        $sql = sprintf(
+            "SELECT * FROM `%s` WHERE `login` = `:login`",
+            static::getTableName()
+        );
+        $stmt = static::getConn()->prepare($sql);
+        $stmt->setFetchMode(
+            \PDO::FETCH_CLASS |
+                \PDO::FETCH_PROPS_LATE,
+            get_called_class()
+        );
+
+        $params = [':login' => $login];
+        $stmt->execute($params);
+
+        $user = $stmt->fetch();
+
+        if (password_verify($pswd, $user->password)) {
+            return $user;
+        }
+
+        return false;
+    }
 }
