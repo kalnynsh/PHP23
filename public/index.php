@@ -32,71 +32,17 @@ use app\models\Order;
 
 spl_autoload_register([new Autoloader(), 'loadClass']);
 
-$productM = new Product();
+// $productAll = Product::getAll();
+// var_dump($productAll);
 
-// $productId = 1;
-// $productObjectIdOne = $productM->getOne($productId);
+$productId = 12;
+$productObjectId12 = Product::getOne($productId);
+// $productObjectId12->commit();
 
-// echo $productObjectIdOne['product_name'] . '<br>';
+// $productObjectId12->price = 12090.0;
 
-// var_dump($productObjectIdOne);
+// var_dump($productObjectId12->update());
 
-//  Get all rows
-// $productsAll = $productM->getAll();
-// $productColName = $productM->getColumn('product_name');
+var_dump($productObjectId12);
 
-// Get rows with column 'product_name'
-// var_dump($productColName);
-
-// Test for Insert data to products table
-// $sourceProduct = [
-//     'category_id' => 5,
-//     'image_id' => 6,
-//     'material_id' => 2,
-//     'price' => 12010.0,
-//     'product_name' => 'Костюм',
-//     'size' => 'XL',
-//     'amount' => 213,
-//     'color' => 'Светло серый',
-// ];
-
-// $productM->setData($sourceProduct);
-// $productsAll2 = $productM->getAll();
-// $lastId = $productM->getLastInsertId();
-// var_dump($lastId);
-
-// Test for DELETE data from products table
-// $productId = 9;
-// $productM->deleteById($productId);
-
-// Test for UPDATE data in products table
-// $sourceProductUpdate = [
-//     'price' => 4900.0,
-// ];
-// $idUpdate = 10;
-// $productM->updateData($sourceProductUpdate, $idUpdate);
-// $productsAll3 = $productM->getAll();
-
-// Test Category class
-// $categoryM = new Category();
-// $catIdOne = $categoryM->getOne(1);
-
-// Test Comment class
-// $commentM = new Comment();
-// $comIdOne = $commentM->getOne(1);
-
-// Test Image class
-// $imgM = new Image();
-// $imgMidOne = $imgM->getOne(1);
-
-// Test Material class
-// $matM = new Material();
-// $matMidOne = $matM->getOne(1);
-
-// Test Order class
-// $orderM = new Order();
-// $orderMidOne = $orderM->getOne(1);
-
-// var_dump($orderMidOne);
-
-// die();
+die();
