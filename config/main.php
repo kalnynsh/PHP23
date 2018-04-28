@@ -41,3 +41,8 @@ define('TEMPLATES_DIR', ROOT_DIR . '/views');
  * Define constant the Path to /vendor
  */
 define('VENDOR_DIR', ROOT_DIR . '/vendor');
+
+/**
+ * Define constant of Controllers name space
+ */
+define('CONTROLLERS_NAMESPACE', 'app\controllers\\');
