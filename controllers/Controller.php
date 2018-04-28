@@ -12,6 +12,8 @@
  * @link     https://github.com/kalnynsh 
  */
 
+namespace app\controllers;
+
 /**
  * Controller abstract class
  */
@@ -31,7 +33,7 @@ abstract class Controller
      */
     public function runAction(string $action = null)
     {
-        $this->_action = $action ? : $this->_defaultAction;
+        $this->_action = $action ?? $this->_defaultAction;
         $method = 'action' . ucfirst($this->_action);
 
         if (method_exists($this, $method)) {
@@ -76,7 +78,7 @@ abstract class Controller
     {
         ob_start();
         extract($params);
-        $templatePath = TEMPLATES_DIR . $template . 'Tmpl.php';
+        $templatePath = TEMPLATES_DIR . '/' . $template . 'Tmpl.php';
         include_once $templatePath;
 
         return ob_get_clean();
