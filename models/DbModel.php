@@ -4,7 +4,7 @@ namespace app\models;
 use app\services\Db;
 
 /**
- * Model abstact parent class
+ * DbModel abstact parent class
  * for User, Product and any model classes
  */
 abstract class DbModel
