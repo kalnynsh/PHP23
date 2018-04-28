@@ -28,22 +28,16 @@ define('PUBLIC_DIR', ROOT_DIR . '/public');
 define('UPLOADS_DIR', ROOT_DIR . '/uploads');
 
 /**
- * Define constant the Path to /templates/layouts
+ * Define constant the Path to /views/layouts
  */
-define('LAYOUTS_DIR', ROOT_DIR . '/templates/layouts');
+define('LAYOUTS_DIR', ROOT_DIR . '/views/layouts');
 
 /**
- * Define constant the Path to /templates
+ * Define constant the Path to /views
  */
-define('TEMPLATES_DIR', ROOT_DIR . '/templates');
+define('TEMPLATES_DIR', ROOT_DIR . '/views');
 
 /**
  * Define constant the Path to /vendor
  */
 define('VENDOR_DIR', ROOT_DIR . '/vendor');
-
-error_reporting(E_ALL);
-ini_set('display_errors', true);
-ini_set('html_errors', true);
-setlocale(LC_ALL, 'ru_RU.UTF-8', 'rus_RUS.UTF-8', 'Russian_Russia.UTF-8');
- 
