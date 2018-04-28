@@ -22,13 +22,6 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/../config/app.php';
 require_once ROOT_DIR . '/services/Autoloader.php';
 
 use app\services\Autoloader;
-// use app\models\Product;
-// use app\models\User;
-// use app\models\Category;
-// use app\models\Comment;
-// use app\models\Image;
-// use app\models\Material;
-// use app\models\Order;
 
 spl_autoload_register([new Autoloader(), 'loadClass']);
 
