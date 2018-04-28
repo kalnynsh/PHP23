@@ -37,9 +37,6 @@ $actionName = $_GET['a'] ?? 'index';
 
 $controllerClass = CONTROLLERS_NAMESPACE . ucfirst($controllerName) . 'Controller';
 
-var_dump($controllerClass, $actionName);
-die();
-
 if (class_exists($controllerClass)) {
     /** @var $controller */
     $controller = new $controllerClass();
