@@ -44,12 +44,12 @@ class ProductController extends Controller
      *
      * @return void
      */
-    public function actionCart()
+    public function actionCard()
     {
-        $id = filter_var(intval($_GET['id']), FILTER_VALIDATE_INT);
+        $id = filter_var($_GET['id'], FILTER_VALIDATE_INT);
         $product = Product::getOne($id);
 
-        echo $this->render('cartSimple', ['product' => $product]);
+        echo $this->render('card', ['product' => $product]);
     }
 
 }
