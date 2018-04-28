@@ -6,7 +6,8 @@
 <div class="products">
     <?php foreach ($products as $product) : ?>        
         <div class="products__item">
-            <a href="/product.php?id=<?php echo $product['product_id']; ?>">                    <img width="200" 
+            <a href="/product.php?id=<?php echo $product['product_id']; ?>">
+                <img width="200" 
                     src="/images/products_small/<?php echo $product['image_name']; ?>" 
                     alt="image">
                 <div class="product-description">
