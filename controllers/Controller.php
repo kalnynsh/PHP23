@@ -54,7 +54,7 @@ abstract class Controller
     {
         if ($this->_useLayout) {
             return $this->renderTemplate(
-                "layouts/{$this->_layout}",
+                "/layouts/{$this->_layout}",
                 [
                     'content' => $this->renderTemplate($template, $params),
                 ]
