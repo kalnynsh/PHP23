@@ -225,26 +225,6 @@ abstract class DbModel
     }
 
     /**
-     * Delete row of data from DB child class table by ID
-     *
-     * @param int $id - ID
-     *
-     * @return bool
-     */
-    public function deleteById(int $id) : bool
-    {
-        $sql = sprintf('DELETE FROM %s WHERE id = :id', static::getTableName());
-        $stmt = static::getConn()->prepare($sql);
-        $stmt->execute(
-            [
-                'id' => $id,
-            ]
-        );
-
-        return true;
-    }
-
-    /**
      * Delete row of data from DB child class table 
      * by self ID
      *
