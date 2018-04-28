@@ -49,7 +49,12 @@ class ProductController extends Controller
         $id = filter_var($_GET['id'], FILTER_VALIDATE_INT);
         $product = Product::getOne($id);
 
-        echo $this->render('card', ['product' => $product]);
+        $params = [
+            'product' => $product,
+            'is_login' => $is_login,
+        ];
+
+        echo $this->render('card', $params);
     }
 
 }
