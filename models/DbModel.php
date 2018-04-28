@@ -219,7 +219,7 @@ abstract class DbModel
      *
      * @return array - allowed properties
      */
-    public function getAllowedProperties() : array
+    protected function getAllowedProperties() : array
     {
         return $this->allowedProperties = array_keys($this->currentProperties);
     }
