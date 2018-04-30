@@ -34,6 +34,7 @@ class User extends DbModel
         $password = null,
         $last_login = null
     ) {
+        parent::__construct();
         $this->id = $id;
         $this->login = $login;
         $this->name = $name;
