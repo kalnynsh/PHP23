@@ -20,6 +20,7 @@ class Category extends DbModel
         $id = null,
         $name = null
     ) {
+        parent::__construct();
         $this->id = $id;
         $this->name = $name;
     }
