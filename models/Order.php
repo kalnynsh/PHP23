@@ -32,6 +32,7 @@ class Order extends DbModel
         $user_id = null,
         $created_at = null
     ) {
+        parent::__construct();
         $this->id = $id;
         $this->order_number = $order_number;
         $this->product_amount = $product_amount;
