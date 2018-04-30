@@ -24,6 +24,7 @@ abstract class DbModel
     public $id;
     const LIMIT_FROM = 0;
     const PER_PAGE = 6;
+    protected $db;
     protected $privateProperties = [
         'currentProperties',
         'privateProperties',
@@ -33,14 +34,24 @@ abstract class DbModel
     protected $allowedProperties = [];
 
     /**
+     * DbModel's constructor
+     *
+     * @param \PDO $dbConnection - PDO object connection to DB
+     */
+    public function __construct(\PDO $dbConnection)
+    {
+        $this->db = $dbConnection;
+    }
+
+    /**
      * Static method get connection with DB
      *
      * @return \PDO
      */
-    public static function getConn() : \PDO
-    {
-        return Db::getInstance()->getConnection();
-    }
+    // public static function getConn() : \PDO
+    // {
+    //     return Db::getInstance()->getConnection();
+    // }
 
     /**
      * Abstract static method for child classes - get table name
