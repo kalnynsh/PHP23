@@ -9,7 +9,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/../config/db.php';
  */
 class Db
 {
-    private $_config = [
+    private static $_config = [
         'driver' => DB_CONNECTION,
         'host' => DB_HOST,
         'login' => DB_USERNAME,
@@ -21,7 +21,6 @@ class Db
     /** 
      * @var \PDO $_conn - \PDO object 
      */
-    private $_conn = null;
     private static $_instance = null;
 
     /**
@@ -33,39 +32,41 @@ class Db
     public static function getInstance()
     {
         if (is_null(static::$_instance)) {
-            static::$_instance = new static();
+            static::$_instance = static::_getConnection();
         }
 
         return static::$_instance;
     }
 
     /**
-     * Get new PDO object if $_conn == null
-     * else get existing \PDO $_conn
+     * Get new PDO object
      *
      * @return \PDO
      */
-    public function getConnection() : \PDO
+    private static function _getConnection() : \PDO
     {
-        if (is_null($this->_conn)) {
-            $this->_conn = new \PDO(
-                $this->_prepareDsnString(),
-                $this->_config['login'],
-                $this->_config['password']
-            );
+        $options = [
+            \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC,
+            \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION
+        ];
+        $_connection = new \PDO(
+            static::_prepareDsnString(),
+            static::$_config['login'],
+            static::$_config['password'],
+            $options
+        );
 
-            $this->_conn->setAttribute(
-                \PDO::ATTR_DEFAULT_FETCH_MODE,
-                \PDO::FETCH_ASSOC
-            );
+        // $_conn->setAttribute(
+        //     \PDO::ATTR_DEFAULT_FETCH_MODE,
+        //     \PDO::FETCH_ASSOC
+        // );
 
-            $this->_conn->setAttribute(
-                \PDO::ATTR_ERRMODE,
-                \PDO::ERRMODE_EXCEPTION
-            );
-        }
+        // $_conn->setAttribute(
+        //     \PDO::ATTR_ERRMODE,
+        //     \PDO::ERRMODE_EXCEPTION
+        // );
 
-        return $this->_conn;
+        return $_connection;
     }
 
     /**
@@ -73,14 +74,14 @@ class Db
      *
      * @return string
      */
-    private function _prepareDsnString() : string
+    private static function _prepareDsnString() : string
     {
         return sprintf(
             "%s:host=%s;dbname=%s;charset=%s",
-            $this->_config['driver'],
-            $this->_config['host'],
-            $this->_config['database'],
-            $this->_config['charset']
+            static::$_config['driver'],
+            static::$_config['host'],
+            static::$_config['database'],
+            static::$_config['charset']
         );
     }
 
