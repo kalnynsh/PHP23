@@ -48,10 +48,10 @@ abstract class DbModel
      *
      * @return \PDO
      */
-    // public static function getConn() : \PDO
-    // {
-    //     return Db::getInstance()->getConnection();
-    // }
+    public static function getConn() : \PDO
+    {
+        return Db::getInstance();
+    }
 
     /**
      * Abstract static method for child classes - get table name
