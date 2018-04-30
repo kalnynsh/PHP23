@@ -21,6 +21,7 @@ class Material extends DbModel
         $id = null,
         $material_name = null
     ) {
+        parent::__construct();
         $this->id = $id;
         $this->material_name = $material_name;
     }
