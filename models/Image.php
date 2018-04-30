@@ -27,6 +27,7 @@ class Image extends DbModel
         $date_created = null,
         $date_updated = null
     ) {
+        parent::__construct();
         $this->id = $id;
         $this->image_name = $image_name;
         $this->date_created = $date_created;
