@@ -24,6 +24,7 @@ class Comment extends DbModel
         $user_id = null,
         $content = null
     ) {
+        parent::__construct();
         $this->id = $id;
         $this->user_id = $user_id;
         $this->content = $content;
