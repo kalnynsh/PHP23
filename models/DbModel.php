@@ -36,11 +36,11 @@ abstract class DbModel
     /**
      * DbModel's constructor
      *
-     * @param \PDO $dbConnection - PDO object connection to DB
+     * Init $db with PDO object connection to DB
      */
-    public function __construct(\PDO $dbConnection)
+    public function __construct()
     {
-        $this->db = $dbConnection;
+        $this->db = Db::getInstance();
     }
 
     /**
