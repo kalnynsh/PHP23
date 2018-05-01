@@ -24,14 +24,63 @@ require_once ROOT_DIR . '/services/Autoloader.php';
 use app\services\Autoloader;
 
 spl_autoload_register([new Autoloader(), 'loadClass']);
+require_once ROOT_DIR . '/vendor/autoload.php';
 
-$controllerName = $_GET['c'] ?? 'product';
-$actionName = $_GET['a'] ?? 'index';
+session_start();
 
-$controllerClass = CONTROLLERS_NAMESPACE . ucfirst($controllerName) . 'Controller';
+$uri = $_SERVER['REQUEST_URI'];
+$uriParts = explode('/', $uri);
+unset($uriParts[0]);
+$uriParts = array_values($uriParts);
+
+$controllerName =
+    isset($uriParts[0]) &&
+    $uriParts[0] !== '' ?
+    $uriParts[0] : 'product';
+
+switch ($controllerName) {
+    case 'product':
+        $controllerClass = CONTROLLERS_NAMESPACE .
+            ucfirst($controllerName) .
+            'Controller';
+        break;
+
+    case 'user':
+        $controllerClass = CONTROLLERS_NAMESPACE .
+            ucfirst($controllerName) .
+            'Controller';
+        break;
+
+    default:
+        header('HTTP/1.1 404 Not Found');
+        die('Error 404');
+}
+
+$id = false;
+
+if (isset($uriParts[1]) && is_numeric($uriParts[1])) {
+    $id = $uriParts[1];
+    $uriParts[1] = 'card';
+}
+
+$actionName = isset($uriParts[1]) && $uriParts[1] !== '' &&
+    is_string($uriParts[1]) ? $uriParts[1] : 'index';
+
+$action = sprintf('action%s', ucfirst($actionName));
+
+if (empty($id)) {
+    $id =
+        isset($uriParts[2]) && is_numeric($uriParts[2]) ?
+        $uriParts[2] : false;
+}
+
+if ($id) {
+    $_GET['id'] = $id;
+}
 
 if (class_exists($controllerClass)) {
     /** @var $controller */
     $controller = new $controllerClass();
     $controller->runAction($actionName);
 }
+
