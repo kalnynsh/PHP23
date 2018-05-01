@@ -7,14 +7,14 @@ namespace app\models;
 class Product extends DbModel
 {
     protected $id;
-    public $category_id;
-    public $image_id;
-    public $material_id;
-    public $price;
-    public $product_name;
-    public $size;
-    public $amount;
-    public $color;
+    protected $category_id;
+    protected $image_id;
+    protected $material_id;
+    protected $price;
+    protected $product_name;
+    protected $size;
+    protected $amount;
+    protected $color;
     protected $currentProperties = [];
     protected $allowedProperties = [];
 
