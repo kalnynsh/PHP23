@@ -27,12 +27,12 @@ abstract class DbModel
     protected $db;
     protected $privateProperties = [
         'currentProperties',
+        'newProperties',
         'privateProperties',
-        'allowedProperties',
         'db'
     ];
     protected $currentProperties = [];
-    protected $allowedProperties = [];
+    protected $newProperties = [];
 
     /**
      * DbModel's constructor
@@ -166,17 +166,18 @@ abstract class DbModel
     }
 
     /**
-     * Save current object properies for next compare
+     * Save current and new object properies for next compare
      *
      * @return void
      */
-    public function commit()
+    public function fillProperties()
     {
         foreach ($this as $key => $value) {
             if ($this->isPrivate($key)) {
                 continue;
             }
             $this->currentProperties["{$key}"] = $value;
+            $this->newProperties["{$key}"] = $value;
         }
     }
 
@@ -259,6 +260,43 @@ abstract class DbModel
         return true;
     }
 
+    /**
+     * Set new value of given property name
+     *
+     * @param string $name  - property's name
+     * @param mixed  $value - property's value
+     * 
+     * @return void
+     */
+    public function __set(string $name, $value)
+    {
+        if ($this->isAllowed($name)) {
+            $this->newProperties["{$name}"] = $value;
+        }
+    }
+
+    /**
+     * Get value of given property name
+     *
+     * @param string $name - property's name
+     * 
+     * @return mixed
+     */
+    public function __get(string $name)
+    {
+        if (empty($this->currentProperties)) {
+            // Fill currentProperties and newProperties
+            $this->fillProperties();
+        }
+
+        if ($this->isAllowed($name)) {
+            return $this->newProperties["{$name}"];
+        }
+
+        echo sprintf('This property %s not exists.', $name);
+
+        return null;
+    }
 
     /**
      * Get allowed properties
@@ -267,7 +305,7 @@ abstract class DbModel
      */
     protected function getAllowedProperties() : array
     {
-        return $this->allowedProperties = array_keys($this->currentProperties);
+        return array_keys($this->currentProperties);
     }
 
     /**
@@ -280,7 +318,7 @@ abstract class DbModel
      */
     protected function isAllowed(string $name) : bool
     {
-        return in_array($name, $this->getAllowedProperties());
+        return array_key_exists($name, $this->currentProperties);
     }
 
     /**
