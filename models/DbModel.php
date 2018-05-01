@@ -239,16 +239,6 @@ abstract class DbModel
     }
 
     /**
-     * Get allowed properties
-     *
-     * @return array - allowed properties
-     */
-    protected function getAllowedProperties() : array
-    {
-        return $this->allowedProperties = array_keys($this->currentProperties);
-    }
-
-    /**
      * Delete row of data from DB child class table 
      * by self ID
      *
@@ -268,6 +258,17 @@ abstract class DbModel
         return true;
     }
 
+
+    /**
+     * Get allowed properties
+     *
+     * @return array - allowed properties
+     */
+    protected function getAllowedProperties() : array
+    {
+        return $this->allowedProperties = array_keys($this->currentProperties);
+    }
+
     /**
      * Check if given name belongs 
      * to AllowedProperties array
@@ -283,7 +284,7 @@ abstract class DbModel
 
     /**
      * Check if given name belongs 
-     * to AllowedProperties array
+     * to privateProperties array
      *
      * @param string $name - property name
      * 
