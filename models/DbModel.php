@@ -64,6 +64,7 @@ abstract class DbModel
      *
      * @param int $id - ID
      *
+     * @return object
      */
     public static function getOne(int $id)
     {
@@ -87,7 +88,7 @@ abstract class DbModel
     /**
      * Get all row data from DB like objects
      *
-     * @return array - of result
+     * @return array - of objects
      */
     public static function getAll()
     {
