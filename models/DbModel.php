@@ -21,14 +21,15 @@ use app\services\Db;
  */
 abstract class DbModel
 {
-    public $id;
+    protected $id;
     const LIMIT_FROM = 0;
     const PER_PAGE = 6;
     protected $db;
     protected $privateProperties = [
         'currentProperties',
         'privateProperties',
-        'allowedProperties'
+        'allowedProperties',
+        'db'
     ];
     protected $currentProperties = [];
     protected $allowedProperties = [];
