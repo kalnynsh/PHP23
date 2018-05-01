@@ -163,9 +163,6 @@ abstract class DbModel
             $placeholders
         );
 
-        var_dump($sql, $params);
-        die();
-
         $stmt = static::getConn()->prepare($sql);
         $stmt->execute($params);
 
@@ -226,7 +223,7 @@ abstract class DbModel
                 $params[":{$key}"] = $value;
             }
         } else {
-            echo 'There are nothing to change';
+            echo 'There is nothing to change';
 
             return false;
         }
@@ -248,16 +245,15 @@ abstract class DbModel
 
     /**
      * Make choice insert() or update()
-     *
-     * @return void
+     * 
      */
-    public function save() : void
+    public function save()
     {
-        if (empty($this->newProperties['id'])) {
-            $this->insert();
+        if (empty($this->newProperties)) {
+            return $this->insert();
         }
 
-        $this->update();
+        return $this->update();
     }
 
     /**
@@ -290,6 +286,10 @@ abstract class DbModel
      */
     public function __set(string $name, $value)
     {
+        if (empty($this->newProperties)) {
+            $this->fillProperties();
+        }
+
         if ($this->isAllowed($name)) {
             $this->newProperties[$name] = $value;
         } else {
@@ -297,7 +297,7 @@ abstract class DbModel
         }
 
         if ($name == 'id') {
-            $this->newProperties['id'] = (null || $this->currentProperties['id']);
+            $this->newProperties['id'] = $this->currentProperties['id'] ?? null;
         }
     }
 
