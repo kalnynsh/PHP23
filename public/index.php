@@ -66,8 +66,6 @@ if (isset($uriParts[1]) && is_numeric($uriParts[1])) {
 $actionName = isset($uriParts[1]) && $uriParts[1] !== '' &&
     is_string($uriParts[1]) ? $uriParts[1] : 'index';
 
-$action = sprintf('action%s', ucfirst($actionName));
-
 if (empty($id)) {
     $id =
         isset($uriParts[2]) && is_numeric($uriParts[2]) ?
@@ -83,4 +81,3 @@ if (class_exists($controllerClass)) {
     $controller = new $controllerClass();
     $controller->runAction($actionName);
 }
-
