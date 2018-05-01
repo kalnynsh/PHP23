@@ -136,11 +136,15 @@ abstract class DbModel
      */
     public function insert() : string
     {
+        if (empty($this->newProperties)) {
+            $this->fillProperties();
+        }
+
         $params = [];
         $columns = [];
 
-        foreach ($this as $key => $value) {
-            if ($this->isPrivate($key)) {
+        foreach ($this->newProperties as $key => $value) {
+            if ($key === 'id') {
                 continue;
             }
 
@@ -153,11 +157,14 @@ abstract class DbModel
         $tableName = static::getTableName();
 
         $sql = sprintf(
-            "INSERT INTO (`%s`) (`%s`) VALUES (%s)",
+            "INSERT INTO `%s` (%s) VALUES (%s)",
             $tableName,
             $columns,
             $placeholders
         );
+
+        var_dump($sql, $params);
+        die();
 
         $stmt = static::getConn()->prepare($sql);
         $stmt->execute($params);
@@ -170,7 +177,7 @@ abstract class DbModel
      *
      * @return void
      */
-    public function fillProperties()
+    protected function fillProperties()
     {
         foreach ($this as $key => $value) {
             if ($this->isPrivate($key)) {
@@ -198,7 +205,7 @@ abstract class DbModel
      */
     public function update() : bool
     {
-        if (empty($this->currentProperties)) {
+        if (empty($this->newProperties)) {
             return false;
         }
 
@@ -240,6 +247,20 @@ abstract class DbModel
     }
 
     /**
+     * Make choice insert() or update()
+     *
+     * @return void
+     */
+    public function save() : void
+    {
+        if (empty($this->newProperties['id'])) {
+            $this->insert();
+        }
+
+        $this->update();
+    }
+
+    /**
      * Delete row of data from DB child class table 
      * by self ID
      *
@@ -271,6 +292,12 @@ abstract class DbModel
     {
         if ($this->isAllowed($name)) {
             $this->newProperties[$name] = $value;
+        } else {
+            return null;
+        }
+
+        if ($name == 'id') {
+            $this->newProperties['id'] = (null || $this->currentProperties['id']);
         }
     }
 
