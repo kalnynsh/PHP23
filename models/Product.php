@@ -16,7 +16,7 @@ class Product extends DbModel
     protected $amount;
     protected $color;
     protected $currentProperties = [];
-    protected $allowedProperties = [];
+    protected $newProperties = [];
 
     /**
      * Product constructor
