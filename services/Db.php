@@ -85,14 +85,23 @@ class Db
         );
     }
 
+    /**
+     * Empty __construct method
+     */
     private function __construct()
     {
     }
 
+    /**
+     * Empty __clone method
+     */
     private function __clone()
     {
     }
 
+    /**
+     * Empty __wakeup method
+     */
     private function __wakeup()
     {
     }
