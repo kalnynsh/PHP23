@@ -198,31 +198,30 @@ abstract class DbModel
      */
     public function update() : bool
     {
-        $oldProperties = $this->currentProperties;
-
-        if (empty($oldProperties)) {
+        if (empty($this->currentProperties)) {
             return false;
         }
 
-        $params[':id'] = $oldProperties['id'];
-        $set = '';
+        $newValuesArr = array_diff(
+            $this->newProperties,
+            $this->currentProperties
+        );
 
-        foreach ($this as $key => $value) {
-            if ($this->isPrivate($key)) {
-                continue;
-            }
+        if (!empty($newValuesArr)) {
+            $params[':id'] = $this->newProperties['id'];
+            $set = '';
 
-            if (!$this->isAllowed($key)) {
-                return false;
-            }
-
-            if ($value !== $oldProperties["{$key}"]) {
+            foreach ($newValuesArr as $key => $value) {
                 $set .= "`" .
                     "{$key}" .
                     "`" .
                     "= :{$key}, ";
                 $params[":{$key}"] = $value;
             }
+        } else {
+            echo 'There are nothing to change';
+
+            return false;
         }
 
         $set = substr($set, 0, -2);
