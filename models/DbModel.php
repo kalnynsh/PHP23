@@ -271,7 +271,7 @@ abstract class DbModel
     public function __set(string $name, $value)
     {
         if ($this->isAllowed($name)) {
-            $this->newProperties["{$name}"] = $value;
+            $this->newProperties[$name] = $value;
         }
     }
 
@@ -290,7 +290,7 @@ abstract class DbModel
         }
 
         if ($this->isAllowed($name)) {
-            return $this->newProperties["{$name}"];
+            return $this->newProperties[$name];
         }
 
         echo sprintf('This property %s not exists.', $name);
