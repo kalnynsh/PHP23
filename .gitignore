@@ -3,7 +3,7 @@ manifest/
 /node_modules
 /tmp
 /log/*
-/vendor
+/vendor/*
 npm-debug.log
 yarn-error.log
 .env
