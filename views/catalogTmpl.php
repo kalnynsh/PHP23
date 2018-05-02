@@ -6,7 +6,7 @@
 <div class="products">
     <?php foreach ($products as $product) : ?>        
         <div class="products__item">
-            <a href="?c=product&a=card&id=<?php echo $product->id; ?>">
+            <a href="product/card/<?php echo $product->id; ?>">
                 <img width="200" 
                     src="/images/products_small/<?php echo 'item-2' . $product->image_id . '.jpg'; ?>" 
                     alt="image">

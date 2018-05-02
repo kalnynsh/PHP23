@@ -34,8 +34,7 @@ unset($uriParts[0]);
 $uriParts = array_values($uriParts);
 
 $controllerName =
-    isset($uriParts[0]) &&
-    $uriParts[0] !== '' ?
+    isset($uriParts[0]) && ($uriParts[0] !== '') ?
     $uriParts[0] : 'product';
 
 switch ($controllerName) {
@@ -63,10 +62,10 @@ if (isset($uriParts[1]) && is_numeric($uriParts[1])) {
     $uriParts[1] = 'card';
 }
 
-$actionName = isset($uriParts[1]) && $uriParts[1] !== '' &&
+$actionName = isset($uriParts[1]) && ($uriParts[1] !== '') &&
     is_string($uriParts[1]) ? $uriParts[1] : 'index';
 
-if (empty($id)) {
+if (!$id) {
     $id =
         isset($uriParts[2]) && is_numeric($uriParts[2]) ?
         $uriParts[2] : false;
@@ -75,6 +74,8 @@ if (empty($id)) {
 if ($id) {
     $_GET['id'] = $id;
 }
+
+var_dump($controllerClass, $actionName);
 
 if (class_exists($controllerClass)) {
     /** @var $controller */
