@@ -5,18 +5,11 @@ namespace app\models;
  */
 class User extends DbModel
 {
-    public $id;
-    public $login;
-    public $name;
-    public $password;
-    public $last_login;
-
-    protected $allowedProperties = [
-        'login',
-        'name',
-        'password',
-        'last_login'
-    ];
+    protected $id;
+    protected $login;
+    protected $name;
+    protected $password;
+    protected $last_login;
 
     /**
      * User's constractor
