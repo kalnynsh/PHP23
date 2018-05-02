@@ -8,7 +8,6 @@ class Category extends DbModel
 {
     protected $id;
     protected $name;
-    protected $allowedProperties = [];
 
     /**
      * Category's constructor
