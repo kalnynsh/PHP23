@@ -6,12 +6,10 @@ namespace app\models;
  */
 class Image extends DbModel
 {
-    public $id;
-    public $image_name;
-    public $date_created;
-    public $date_updated;
-
-    protected $allowedProperties = [];
+    protected $id;
+    protected $image_name;
+    protected $date_created;
+    protected $date_updated;
 
     /**
      * Image's constructor
