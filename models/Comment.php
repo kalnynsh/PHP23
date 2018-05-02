@@ -10,8 +10,6 @@ class Comment extends DbModel
     protected $user_id;
     protected $content;
 
-    protected $allowedProperties = [];
-
     /**
      * Comment's constructor
      *
