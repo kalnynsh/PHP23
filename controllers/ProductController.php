@@ -48,9 +48,6 @@ class ProductController extends Controller
     {
         $id = filter_var($_GET['id'], FILTER_VALIDATE_INT);
 
-        var_dump($_SERVER, $id);
-        die();
-
         $product = Product::getOne($id);
         // test
         $is_login = true;
