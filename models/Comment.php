@@ -6,9 +6,9 @@ namespace app\models;
  */
 class Comment extends DbModel
 {
-    public $id;
-    public $user_id;
-    public $content;
+    protected $id;
+    protected $user_id;
+    protected $content;
 
     protected $allowedProperties = [];
 
