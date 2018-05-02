@@ -39,21 +39,21 @@ $controllerName =
 
 switch ($controllerName) {
     case 'product':
-        $controllerClass = CONTROLLERS_NAMESPACE .
-            ucfirst($controllerName) .
-            'Controller';
+        $controllerName = 'product';
         break;
 
     case 'user':
-        $controllerClass = CONTROLLERS_NAMESPACE .
-            ucfirst($controllerName) .
-            'Controller';
+        $controllerName = 'user';
         break;
 
     default:
         header('HTTP/1.1 404 Not Found');
         die('Error 404');
 }
+
+$controllerClass = CONTROLLERS_NAMESPACE .
+    ucfirst($controllerName) .
+    'Controller';
 
 $id = false;
 
