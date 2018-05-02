@@ -20,22 +20,25 @@ setlocale(LC_ALL, 'ru_RU.UTF-8', 'rus_RUS.UTF-8', 'Russian_Russia.UTF-8');
 require_once $_SERVER['DOCUMENT_ROOT'] . '/../config/main.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/../config/app.php';
 require_once ROOT_DIR . '/services/Autoloader.php';
-
+require_once VENDOR_DIR . '/autoload.php';
 use app\services\Autoloader;
 
 spl_autoload_register([new Autoloader(), 'loadClass']);
-require_once ROOT_DIR . '/vendor/autoload.php';
+
 
 session_start();
 
 $uri = $_SERVER['REQUEST_URI'];
 $uriParts = explode('/', $uri);
+
 unset($uriParts[0]);
 $uriParts = array_values($uriParts);
 
 $controllerName =
     isset($uriParts[0]) && ($uriParts[0] !== '') ?
     $uriParts[0] : 'product';
+
+// $controllerName = ($uriParts[0] === 'index.php') ? 'product' : $uriParts[0];
 
 switch ($controllerName) {
     case 'product':
@@ -48,7 +51,7 @@ switch ($controllerName) {
 
     default:
         header('HTTP/1.1 404 Not Found');
-        die('Error 404');
+        die('Error 404 Not Found');
 }
 
 $controllerClass = CONTROLLERS_NAMESPACE .
@@ -75,10 +78,10 @@ if ($id) {
     $_GET['id'] = $id;
 }
 
-var_dump($controllerClass, $actionName);
-
 if (class_exists($controllerClass)) {
     /** @var $controller */
     $controller = new $controllerClass();
     $controller->runAction($actionName);
+} else {
+    echo sprintf('This %s controllerClass not exists', $controllerClass);
 }
