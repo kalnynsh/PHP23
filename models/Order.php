@@ -6,13 +6,12 @@ namespace app\models;
  */
 class Order extends DbModel
 {
-    public $id;
-    public $order_number;
-    public $product_amount;
-    public $product_id;
-    public $user_id;
-    public $created_at;
-    protected $allowedProperties = [];
+    protected $id;
+    protected $order_number;
+    protected $product_amount;
+    protected $product_id;
+    protected $user_id;
+    protected $created_at;
 
     /**
      * Order's constructor
