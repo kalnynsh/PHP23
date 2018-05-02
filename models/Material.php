@@ -6,10 +6,8 @@ namespace app\models;
  */
 class Material extends DbModel
 {
-    public $id;
-    public $material_name;
-
-    protected $allowedProperties = [];
+    protected $id;
+    protected $material_name;
 
     /**
      * Material's constructor
