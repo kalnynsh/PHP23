@@ -6,8 +6,8 @@ namespace app\models;
  */
 class Category extends DbModel
 {
-    public $id;
-    public $name;
+    protected $id;
+    protected $name;
     protected $allowedProperties = [];
 
     /**
