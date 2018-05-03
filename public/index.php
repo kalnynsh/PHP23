@@ -38,8 +38,6 @@ $controllerName =
     isset($uriParts[0]) && ($uriParts[0] !== '') ?
     $uriParts[0] : 'product';
 
-// $controllerName = ($uriParts[0] === 'index.php') ? 'product' : $uriParts[0];
-
 switch ($controllerName) {
     case 'product':
         $controllerName = 'product';
