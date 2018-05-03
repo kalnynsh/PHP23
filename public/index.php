@@ -75,10 +75,6 @@ if ($id) {
     $_GET['id'] = $id;
 }
 
-// var_dump($controllerClass, $actionName); 
-// // 'app\controllers\ProductController', 'index' 
-// die();
-
 if (class_exists($controllerClass)) {
     /** @var $controller */
     $controller = new $controllerClass();
