@@ -15,6 +15,8 @@ class Product extends DbModel
     protected $size;
     protected $amount;
     protected $color;
+    protected $created_at;
+    protected $updated_at;
     protected $currentProperties = [];
     protected $newProperties = [];
 
@@ -30,6 +32,9 @@ class Product extends DbModel
      * @param string $size         - product's size
      * @param int    $amount       - product's amount
      * @param string $color        - product's color
+     * @param int    $status       - product's status 1|0
+     * @param \Date  $created_at   - product's creation date
+     * @param \Date  $updated_at   - product's update's date
      */
     public function __construct(
         $id = null,
@@ -40,7 +45,10 @@ class Product extends DbModel
         $product_name = null,
         $size = null,
         $amount = null,
-        $color = null
+        $color = null,
+        $status = null,
+        $created_at = null,
+        $updated_at = null
     ) {
         parent::__construct();
         $this->id = $id;
@@ -52,6 +60,9 @@ class Product extends DbModel
         $this->size = $size;
         $this->amount = $amount;
         $this->color = $color;
+        $this->status = $status;
+        $this->created_at = $created_at;
+        $this->updated_at = $updated_at;
     }
 
     /**
