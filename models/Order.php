@@ -22,6 +22,9 @@ class Order extends DbModel
      * @param string $product_id     - product's ID 
      * @param string $user_id        - user's ID
      * @param string $created_at     - creation date, time
+     * @param string $updated_at     - update date, time
+     * @param string $status         - one of (
+     *               'notactive', 'active', 'paid', 'waiting', 'delivered')
      */
     public function __construct(
         $id = null,
@@ -29,7 +32,9 @@ class Order extends DbModel
         $product_amount = null,
         $product_id = null,
         $user_id = null,
-        $created_at = null
+        $created_at = null,
+        $updated_at = null,
+        $status = null
     ) {
         parent::__construct();
         $this->id = $id;
@@ -38,6 +43,8 @@ class Order extends DbModel
         $this->product_id = $product_id;
         $this->user_id = $user_id;
         $this->created_at = $created_at;
+        $this->updated_at = $updated_at;
+        $this->status = $status;
     }
 
     /**
