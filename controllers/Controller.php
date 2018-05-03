@@ -40,7 +40,7 @@ abstract class Controller
             $this->$method();
         } else {
             header('HTTP/1.1 404 Not Found');
-            die('Error 404');
+            die('Error 404 Not Found');
         }
     }
 
