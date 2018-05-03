@@ -83,6 +83,11 @@ abstract class DbModel
         $params = [':id' => $id];
         $stmt->execute($params);
 
+        $info = $stmt->errorInfo();
+        if ($info[0] !== \PDO::ERR_NONE) {
+            die('We have : ' . $info[2]);
+        }
+
         return $stmt->fetch();
     }
 
@@ -102,6 +107,11 @@ abstract class DbModel
         $stmt->bindValue(':perPage', static::PER_PAGE, \PDO::PARAM_INT);
 
         $stmt->execute();
+
+        $info = $stmt->errorInfo();
+        if ($info[0] !== \PDO::ERR_NONE) {
+            die('We have : ' . $info[2]);
+        }
 
         return $stmt->fetchAll(
             \PDO::FETCH_CLASS |
@@ -125,6 +135,11 @@ abstract class DbModel
 
         $sql = sprintf('SELECT `%s` FROM `%s`', $columnName, static::getTableName());
         $stmt = static::getConn()->query($sql);
+
+        $info = $stmt->errorInfo();
+        if ($info[0] !== \PDO::ERR_NONE) {
+            die('We have : ' . $info[2]);
+        }
 
         return $stmt->fetchAll(\PDO::FETCH_COLUMN);
     }
@@ -165,6 +180,11 @@ abstract class DbModel
 
         $stmt = static::getConn()->prepare($sql);
         $stmt->execute($params);
+
+        $info = $stmt->errorInfo();
+        if ($info[0] !== \PDO::ERR_NONE) {
+            die('We have : ' . $info[2]);
+        }
 
         return static::getLastInsertId();
     }
@@ -240,6 +260,11 @@ abstract class DbModel
         $stmt = static::getConn()->prepare($sql);
         $stmt->execute($params);
 
+        $info = $stmt->errorInfo();
+        if ($info[0] !== \PDO::ERR_NONE) {
+            die('We have : ' . $info[2]);
+        }
+
         return true;
     }
 
@@ -272,6 +297,11 @@ abstract class DbModel
                 'id' => $id,
             ]
         );
+
+        $info = $stmt->errorInfo();
+        if ($info[0] !== \PDO::ERR_NONE) {
+            die('We have : ' . $info[2]);
+        }
 
         return true;
     }
@@ -359,5 +389,19 @@ abstract class DbModel
     {
         return in_array($name, $this->privateProperties);
     }
+    /**
+     * Check errors from PDO execute
+     *
+     * @param \PDO $query - PDO query
+     * 
+     * @return void
+     */
+    protected function errorCheck($query) : void
+    {
+        $info = $query->errorInfo();
 
+        if ($info[0] !== \PDO::ERR_NONE) {
+            die('We have : ' . $info[2]);
+        }
+    }
 }
