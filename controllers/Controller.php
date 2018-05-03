@@ -36,6 +36,8 @@ abstract class Controller
         $this->_action = $action ?? $this->_defaultAction;
         $method = 'action' . ucfirst($this->_action);
 
+        // var_dump($action, $method);
+
         if (method_exists($this, $method)) {
             $this->$method();
         } else {
